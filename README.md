@@ -7,4 +7,6 @@ https://foodsaving.world/api/
 https://project.yunity.org/
 https://github.com/yunity
 
-Why not put it into there github repository? I am still experimenting..
+Why not put it into there github repository? The code is still tied to Solidarity Fridge (solikyl.se) and in a very early stage of development.
+
+http://solikyl.se/about/
