@@ -1,0 +1,11 @@
+1.0.2 Hello world example becomes Solikyl Unity - Nicco (4/3 - 2017)
+	- Adapted solikyl_yunity_lib (v0.2)  to Python 2.x 
+	- Dialog based with a select box and info window with 
+	- continue (yes/no) and timeout of 25 seconds.
+	- Added icon and fanart pictures for Solikylr.
+	- Version information placed in the pickup
+	- details window. Stuff left to do:
+	- Time needs to be presented in human friendly
+	- format, error handling is none excistent..
+1.0.1 Move icon and fanart to root for backwards compatibility
+1.0.0 Initial Release
