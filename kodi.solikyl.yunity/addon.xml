@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.solikyl.yunity" name="Solikyl Yunity" version="1.0.2" provider-name="Nicco">
+<addon id="script.solikyl.yunity" name="Solikyl Yunity" version="1.0.3" provider-name="Nicco - (nicco77@gmail.com)">
 	<requires>
 		<import addon="xbmc.python" version="2.14.0"/>
 	</requires>
@@ -9,7 +9,15 @@
 	<extension point="xbmc.addon.metadata">
 		<platform>all</platform>
 		<summary lang="en">Solikyl food pickups</summary>
-		<description lang="en">Shows Status of food pickups for Solikyl on the Yunity platform</description>
+<description lang="en">Shows Status of food pickups for Solikyl on the Yunity platform
+
+Solidarity Fridge (Solikyl): http://solikyl.se 
+Yunity project: https://project.yunity.org 
+Foodsave tool: https://foodsaving.world
+Swagger API: https://foodsaving.world/docs/
+Projects on GitHub: https://github.com/yunity
+Communication platform: https://yunity.slack.com
+</description>
 		<license>GNU General Public License, v2</license>
 		<language></language>
 		<forum>http://omverkstan.se/forum/categories/solikyl</forum>
@@ -23,6 +31,6 @@
 			<screenshot>resources/screenshot-02.jpg</screenshot>
 			<screenshot>resources/screenshot-03.jpg</screenshot>
 		</assets>
-		<news>4/3 -2017: Hello world becomes Solikyl Yunity!</news>
+		<news>11/3 -2017:  Showing users part of a pickup</news>
 	</extension>
 </addon>

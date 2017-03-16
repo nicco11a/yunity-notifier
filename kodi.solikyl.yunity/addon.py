@@ -17,10 +17,16 @@ title = addonname + " (%s) " % addonversion
 
 while (True):
 	#Show the pickups in a list, you can choose one for more detials and then you can stop or continue, after 25 seconds it will cancel
-	line=solikyl_yunity_lib.show_status()
-	ret = xbmcgui.Dialog().contextmenu(list=line)
+	pickups=solikyl_yunity_lib.pickups_status()
+	choices=[]
+	choices=solikyl_yunity_lib.pickup_choices(pickups)
+	#pprint (choices)
+	ret = xbmcgui.Dialog().contextmenu(list=choices)
 	if (ret < 0):
 		break
-	ok = xbmcgui.Dialog().yesno(title+" - Details of pickup", "Choice %d: " % (ret + 1), line[ret], "", nolabel="Cancel", yeslabel="Continue",autoclose=25000)
+	pickup=solikyl_yunity_lib.get_pickup(pickups, ret)
+	#pprint(pickup)
+	#ok = xbmcgui.Dialog().yesno(title+" - Details of pickup", "Choice %d: " % (ret + 1), choices[ret], "", nolabel="Cancel", yeslabel="Continue",autoclose=25000)
+	ok = xbmcgui.Dialog().yesno(title+" - Details of pickup", "Choice %d: " % (ret + 1), pickup[0], pickup[1], nolabel="Cancel", yeslabel="Continue",autoclose=25000)
 	if (ok == False):
 		break 

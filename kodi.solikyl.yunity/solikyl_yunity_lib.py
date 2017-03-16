@@ -1,4 +1,4 @@
-# Version 0.2 by Nicco
+# Version 0.3 by Nicco
 from pprint import pprint
 import requests
 from datetime import datetime
@@ -15,7 +15,7 @@ if sys.hexversion < 0x03000000:
 	reload(sys)
 	sys.setdefaultencoding('utf8')
 
-version = "0.1"
+version = "0.3"
 baseurl = "https://foodsaving.world/api"
 user = ""
 password = ""
@@ -46,19 +46,20 @@ def fetch_pickups(group_id,days):
 	pprint (data)
 	return (data)
 
-def fetch_users():
-	# Fetch all users, missing user id request so no other option		
+def fetch_user(user_id):
+	# Fetch a specific user id		
 	print ("User data")
-	data = call("/users/")
+	data = call("/users/%d/" % user_id)
 	#print (len(data))
-	r=0
-	for row in data:
-		print ("Row:\t%d,\tID: %d,\t\t\tName:\t%s" % (r, row['id'], row['display_name']))
+	#r=0
+	#for row in data:
+		#print ("Row:\t%d,\tID: %d,\t\t\tName:\t%s" % (r, row['id'], row['display_name']))
+		#pprint (row)
 		#pprint (int(row["id"]))
-		if int(row["id"]) == 1:
-			print ('Delete row %d, id %d' % (r, row['id']))
-			data.pop(r)			
-		r=r+1
+		#if int(row["id"]) == 1:
+		#	print ('Delete row %d, id %d' % (r, row['id']))
+		#	data.pop(r)			
+		#r=r+1
 	#pprint (data)
 	#print (len(data))
 	return (data)
@@ -93,16 +94,42 @@ def get_store_name(store_array, store_id):
 	#print (store_name)
 	return (store_name)
 
+def pickup_choices(pickups):
+	# listing a pickups and date
+	choices=[]
+	for pickup in pickups:
+		choice="%s - %s" % (pickup['name'], pickup['date'])
+		#choice=pickup['date']
+		#print (choice)
+		choices.append(choice)
+	return (choices)
 
-def show_status():
-# Fetch one week of solikyl pickups + store data
-	#users=fetch_users()
+def get_pickup(pickups, row):
+	# Display info about a particular pickup (row)
+	# as fetched from pickups_status()
+	print ("Row: %d" % row)
+	data = []
+	d = 'Store "%s" (%d) needs %s at %s.' % (pickups[row]['name'], pickups[row]['id'], pickups[row]['type'], pickups[row]['date'])
+	data.append(d)
+	#d = "Users: %s" % pickups[row]['users']
+	d = "Users: " 
+	if (len(pickups[row]['users']) > 0):
+		for user in pickups[row]['users']:
+			d=d+"%s, " % fetch_user(user)["display_name"]
+	else:
+		d=d+"none"
+	data.append(d)
+	return(data)
+
+def pickups_status():
+	# Fetch one week of solikyl pickups + store data
+	#users=fetch_user(133)
 	gid=search_group_id('Solikyl')
 	stores=fetch_stores(gid)
 	pickups=fetch_pickups(gid,7)
 	# Checking status of pickups
-	tb=""
 	tbx=[]
+	tjx=[]
 	for pickup in pickups:
 		#print (len(pickup['collector_ids']))
 		#List non taken pickups
@@ -110,23 +137,29 @@ def show_status():
 			sname=get_store_name(stores,pickup['store'])
 			#htime=human_time(pickup['date']
 			htime = pickup['date']
-			print('Store "%s" (%d) needs a pickup at %s.' % (sname, pickup['store'], htime))
 			tb=('Store "%s" (%d) needs a pickup at %s.' % (sname, pickup['store'], htime))
+			#print (tb)
 			tbx.append(tb)
+			tj={'id': pickup['store'], 'name': sname, 'date': pickup['date'], 'users': pickup['collector_ids'], 'type': 'a pickup'}
+			tjx.append(tj)
 		# Need instructor?
 		if (len(pickup['collector_ids']) > 0 and len(pickup['collector_ids']) < pickup['max_collectors']):
 			sname=get_store_name(stores,pickup['store'])
 			#htime=human_time(pickup['date'])
 			htime = pickup['date']
-			print('Store "%s" (%d) needs a instructor for a pickup at %s.' % (sname, pickup['store'], htime))
 			tb=('Store "%s" (%d) needs a instructor for a pickup at %s.' % (sname, pickup['store'], htime))
+			#print(tb)
 			tbx.append(tb)
+			tj={'id': pickup['store'], 'name': sname, 'date': pickup['date'], 'users': pickup['collector_ids'], 'type': 'a instructor'}
+			tjx.append(tj)
 		# A full schedule, time to notify the store!
 		if (len(pickup['collector_ids']) == pickup['max_collectors']):
 			sname=get_store_name(stores,pickup['store'])
 			#htime=human_time(pickup['date'])
 			htime = pickup['date']
-			print('Store "%s" (%d) have a full slot at %s!' % (sname, pickup['store'], htime))
 			tb=('Store "%s" (%d) have a full slot at %s!' % (sname, pickup['store'], htime))
+			#print (tb)
 			tbx.append(tb)
-	return(tbx)
+			tj={'id': pickup['store'], 'name': sname, 'date': pickup['date'], 'users': pickup['collector_ids'], 'type': 'to be fetched'}
+			tjx.append(tj)
+	return(tjx)

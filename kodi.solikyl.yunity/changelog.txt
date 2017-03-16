@@ -1,3 +1,12 @@
+1.0.3 Showing users part of a pickup - Nicco (11/3 - 2017)
+	- Moving json objects rather then text stings,
+	- fetch_users renamed to fetch_user and take user id
+	- pickup_choices lists pickups for choice menu
+	- get_pickup extracts data from a particular pickup 
+	- show_status renamed to pickup_status and returns
+	- an array of json objects instead of text strings 
+	- links to relevant sources for Yunity etc. in the
+	- the add.xml description part.
 1.0.2 Hello world example becomes Solikyl Unity - Nicco (4/3 - 2017)
 	- Adapted solikyl_yunity_lib (v0.2)  to Python 2.x 
 	- Dialog based with a select box and info window with 
